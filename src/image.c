@@ -294,6 +294,7 @@ detection_with_class* get_actual_detections(detection *dets, int dets_num, float
         int j;
         for (j = 0; j < dets[i].classes; ++j) {
             int show = strncmp(names[j], "dont_show", 9);
+            printf("%f", dets[i].prob[j]);
             if (dets[i].prob[j] > best_class_prob && show) {
                 best_class = j;
                 best_class_prob = dets[i].prob[j];
@@ -333,6 +334,8 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
 
     int selected_detections_num;
     detection_with_class* selected_detections = get_actual_detections(dets, num, thresh, &selected_detections_num, names);
+
+    printf("selected_detections_num %d thresh %f\n", selected_detections_num, thresh);
 
     // text output
     qsort(selected_detections, selected_detections_num, sizeof(*selected_detections), compare_by_lefts);

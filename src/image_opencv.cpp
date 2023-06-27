@@ -1331,6 +1331,14 @@ extern "C" image image_data_augmentation(mat_cv* mat, int w, int h,
         // Mat -> image
         out = mat_to_image(sized);
     }
+    catch (const std::exception& e) {
+        cerr << "OpenCV can't augment image: " << e.what() << " " << w << " x " << h << " \n";
+        cv::Mat* cv_mat = (cv::Mat*)mat;
+        cerr << "rows " << cv_mat->rows << " cols " << cv_mat->cols;
+        cerr << "pleft " << pleft << " ptop " << ptop;
+        cerr << "swidth " << swidth << " sheight " << sheight;
+        out = mat_to_image(*(cv::Mat*)mat);
+    }
     catch (...) {
         cerr << "OpenCV can't augment image: " << w << " x " << h << " \n";
         out = mat_to_image(*(cv::Mat*)mat);
